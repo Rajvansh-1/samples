@@ -6,7 +6,11 @@
     <title>CHIZEL - Smart Games for Growing Minds</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/spline-runtime@1.0.0/dist/runtime.js"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     <style>
+        /* Your existing CSS styles here */
         /* Base Styles */
         :root {
             --primary-color: #6C63FF;
@@ -865,17 +869,79 @@
                 height: 300px;
             }
         }
+    
+        /* Additional styles for animations */
+        .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .word.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Gooey Nav effect */
+        .nav-links {
+            position: relative;
+        }
+        
+        .nav-links::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(108,99,255,0.2) 0%, rgba(108,99,255,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .nav-links:hover::before {
+            opacity: 1;
+        }
+        
+        /* Spotlight Card effect */
+        .problem-card, .feature-card, .game-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .problem-card::after, .feature-card::after, .game-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .problem-card:hover::after, .feature-card:hover::after, .game-card:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
+    <!-- Your HTML content here -->
+  <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
     <!-- Navigation -->
     <nav class="navbar">
         <div class="logo-container">
-            <img src="assets/logo-white.png" alt="CHIZEL Logo" class="logo">
+            <img src="assets/logo.png" alt="CHIZEL Logo" class="logo">
         </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
@@ -1274,7 +1340,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-brand">
-                <img src="assets/logo-white.png" alt="CHIZEL Logo" class="footer-logo">
+                <img src="assets/logo.png" alt="CHIZEL Logo" class="footer-logo">
                 <p>Making screen time meaningful through neuroscience-based games that children love and parents trust.</p>
             </div>
             
@@ -1310,7 +1376,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>© 2023 CHIZEL. All rights reserved.</p>
+            <p>© 2025 CHIZEL. All rights reserved.</p>
             <div class="social-links">
                 <a href="#facebook">Facebook</a>
                 <a href="#instagram">Instagram</a>
@@ -1363,36 +1429,139 @@
     <!-- Spotlight Card -->
     <script src="https://unpkg.com/spotlight-card"></script>
 
+
     <script>
-        // Initialize Text Trail Animation
-        const textTrail = new TextTrailAnimation({
-            element: '.scroll-reveal-text',
-            delay: 0.1,
-            duration: 0.8,
-            ease: 'power3.out'
+        // Initialize all animations after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Text Trail Animation
+            const textElements = document.querySelectorAll('.scroll-reveal-text .word');
+            textElements.forEach((word, index) => {
+                setTimeout(() => {
+                    word.classList.add('revealed');
+                }, index * 200);
+            });
+
+            // Splash Cursor
+            const cursor = document.createElement('div');
+            cursor.className = 'cursor';
+            document.body.appendChild(cursor);
+            
+            const cursorFollower = document.createElement('div');
+            cursorFollower.className = 'cursor-follower';
+            document.body.appendChild(cursorFollower);
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                setTimeout(() => {
+                    cursorFollower.style.left = e.clientX + 'px';
+                    cursorFollower.style.top = e.clientY + 'px';
+                }, 100);
+            });
+            
+            // Make cursor interactive with clickable elements
+            const interactiveElements = document.querySelectorAll('a, button, .play-button');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(1.5)';
+                    cursor.style.backgroundColor = 'var(--accent-color)';
+                    cursorFollower.style.transform = 'scale(1.5)';
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.backgroundColor = 'var(--primary-color)';
+                    cursorFollower.style.transform = 'scale(1)';
+                });
+                
+                el.addEventListener('click', () => {
+                    // Create splash effect
+                    const splash = document.createElement('div');
+                    splash.className = 'cursor-splash';
+                    splash.style.left = (el.getBoundingClientRect().left + el.offsetWidth/2) + 'px';
+                    splash.style.top = (el.getBoundingClientRect().top + el.offsetHeight/2) + 'px';
+                    document.body.appendChild(splash);
+                    
+                    setTimeout(() => {
+                        splash.remove();
+                    }, 1000);
+                });
+            });
+
+            // Scroll Reveal Animations with GSAP
+            gsap.registerPlugin(ScrollTrigger);
+            
+            gsap.utils.toArray('.scroll-reveal').forEach(section => {
+                gsap.from(section.querySelectorAll('.word'), {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                });
+            });
+            
+            // Parallax Effect
+            const parallaxSections = document.querySelectorAll('.parallax-section');
+            
+            parallaxSections.forEach(section => {
+                const bg = section.querySelector('.parallax-bg');
+                
+                gsap.to(bg, {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Initialize all other functionality
+            initNavbar();
+            initGameModal();
         });
 
-        // Initialize Splash Cursor
-        const cursor = new SplashCursor({
-            cursor: '.cursor',
-            follower: '.cursor-follower',
-            splashColor: 'var(--primary-color)',
-            splashSize: 10
-        });
+        function initNavbar() {
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    document.querySelector('.navbar').classList.add('scrolled');
+                } else {
+                    document.querySelector('.navbar').classList.remove('scrolled');
+                }
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
 
-        // Initialize Gooey Nav
-        const gooeyNav = new GooeyNav({
-            nav: '.nav-links',
-            itemClass: 'nav-item',
-            gooeyness: 0.8
-        });
-
-        // Initialize Spotlight Cards
-        const spotlightCards = new SpotlightCard({
-            cards: ['.problem-card', '.feature-card', '.game-card'],
-            intensity: 0.2,
-            size: 300
-        });
+        function initGameModal() {
+            // Your existing game modal code
+            // ...
+        }
 
         // Game State Management
         let currentGame = null;
