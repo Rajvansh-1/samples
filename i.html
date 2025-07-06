@@ -5,20 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHIZEL - Smart Games for Growing Minds</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/spline-runtime@1.0.0/dist/runtime.js"></script>
     <!-- GSAP for animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     <style>
         /* Base Styles */
         :root {
-            --primary-color: #FF6B6B;
-            --secondary-color: #4ECDC4;
-            --accent-color: #FFE66D;
-            --dark-color: #292F36;
-            --light-color: #F7FFF7;
-            --success-color: #6BCB77;
-            --warning-color: #FFD93D;
-            --danger-color: #FF6B6B;
+            --primary-color: #6C63FF;
+            --secondary-color: #4DCCFF;
+            --accent-color: #FF6B9D;
+            --dark-color: #3A3D5D; /* Lighter dark theme */
+            --light-color: #F8F9FA;
+            --text-color: #333; /* Darker text for better contrast */
+            --success-color: #4CAF50;
+            --warning-color: #FFD166;
+            --danger-color: #EF476F;
             --font-primary: 'Fredoka', sans-serif;
             --font-secondary: 'Comfortaa', cursive;
         }
@@ -31,7 +33,7 @@
 
         body {
             font-family: var(--font-secondary);
-            color: var(--dark-color);
+            color: var(--text-color);
             background-color: var(--light-color);
             overflow-x: hidden;
             scroll-behavior: smooth;
@@ -40,6 +42,7 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-primary);
             font-weight: 700;
+            color: var(--dark-color);
         }
 
         .text-gradient {
@@ -49,77 +52,11 @@
             color: transparent;
         }
 
-        /* Hero Section - Special Styling */
-        .hero-section {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, #292F36 0%, #4ECDC4 100%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .hero-title-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .hero-logo {
-            width: 120px;
-            height: 120px;
-            margin-left: 30px;
-            animation: rotate 15s linear infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hero-content h1 {
-            font-size: 4.5rem;
-            line-height: 1.2;
-            text-transform: uppercase;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-            color: #FFE66D;
-        }
-
-        .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Text Effects */
-        .text-glow {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
-                         0 0 20px rgba(255, 230, 109, 0.6);
-        }
-
-        /* Rest of your existing CSS styles... */
         /* 3D Text Effect */
         .text-3d {
             text-shadow: 
-                3px 3px 0 var(--dark-color),
-                6px 6px 0 rgba(0,0,0,0.1);
+                2px 2px 0 rgba(0,0,0,0.1),
+                4px 4px 0 rgba(0,0,0,0.05);
             transform: perspective(500px) rotateX(10deg);
         }
 
@@ -147,15 +84,11 @@
 
         .parallax-content {
             text-align: center;
+            color: white;
             max-width: 900px;
             padding: 0 20px;
             z-index: 2;
-        }
-
-        .parallax-content h2, 
-        .parallax-content p {
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Better text visibility */
         }
 
         /* Scroll Reveal */
@@ -167,6 +100,8 @@
             font-size: clamp(1.6rem, 4vw, 3rem);
             line-height: 1.5;
             font-weight: 600;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
 
         .word {
@@ -184,7 +119,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background-color: rgba(41, 47, 54, 0.95);
+            background-color: rgba(58, 61, 93, 0.95); /* Lighter dark theme */
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
@@ -246,8 +181,43 @@
         .cta-button:hover {
             background-color: var(--secondary-color);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+            box-shadow: 0 10px 20px rgba(77, 204, 255, 0.3);
             color: white;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #3A3D5D 0%, #6C63FF 100%); /* Lighter dark theme */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive font size */
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Better visibility */
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.3rem); /* Responsive font size */
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Better visibility */
         }
 
         .hero-buttons {
@@ -255,6 +225,7 @@
             gap: 20px;
             justify-content: center;
             margin-top: 30px;
+            flex-wrap: wrap; /* For mobile */
         }
 
         .secondary-button {
@@ -274,9 +245,19 @@
             transform: translateY(-3px);
         }
 
+        /* Spline 3D Scene */
+        .spline-scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
         /* Content Sections */
         .content-section {
-            padding: 100px 5%;
+            padding: 80px 5%; /* Reduced padding for mobile */
             position: relative;
         }
 
@@ -289,17 +270,17 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px; /* Reduced margin for mobile */
         }
 
         .section-header h2 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem); /* Responsive font size */
             margin-bottom: 1rem;
             color: var(--dark-color);
         }
 
         .section-header p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive font size */
             max-width: 700px;
             margin: 0 auto;
             color: #666;
@@ -308,14 +289,14 @@
         /* Problem Section */
         .problem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for mobile */
+            gap: 20px; /* Reduced gap for mobile */
         }
 
         .problem-card {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 30px 20px; /* Reduced padding for mobile */
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             text-align: center;
@@ -323,24 +304,24 @@
 
         .problem-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.2);
+            box-shadow: 0 20px 50px rgba(108, 99, 255, 0.2);
         }
 
         .problem-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem; /* Reduced size for mobile */
+            margin-bottom: 15px; /* Reduced margin for mobile */
             display: inline-block;
         }
 
         .problem-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem; /* Reduced size for mobile */
+            margin-bottom: 10px; /* Reduced margin for mobile */
             color: var(--primary-color);
         }
 
         /* Solution Section */
         .solution-section {
-            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            background: linear-gradient(135deg, #6C63FF 0%, #4DCCFF 100%);
             color: white;
             position: relative;
             overflow: hidden;
@@ -348,15 +329,15 @@
 
         .solution-features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Adjusted for mobile */
+            gap: 20px; /* Reduced gap for mobile */
         }
 
         .feature-card {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 30px 20px; /* Reduced padding for mobile */
             border: 1px solid rgba(255,255,255,0.2);
             transition: all 0.3s ease;
             text-align: center;
@@ -368,15 +349,15 @@
         }
 
         .feature-number {
-            font-size: 2.5rem;
+            font-size: 2rem; /* Reduced size for mobile */
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* Reduced margin for mobile */
             color: white;
         }
 
         .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem; /* Reduced size for mobile */
+            margin-bottom: 10px; /* Reduced margin for mobile */
         }
 
         /* Games Section */
@@ -386,8 +367,8 @@
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted for mobile */
+            gap: 20px; /* Reduced gap for mobile */
         }
 
         .game-card {
@@ -400,11 +381,11 @@
 
         .game-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 20px 50px rgba(108, 99, 255, 0.3);
         }
 
         .game-preview {
-            height: 200px;
+            height: 180px; /* Reduced height for mobile */
             background: #f0f2ff;
             position: relative;
             overflow: hidden;
@@ -417,19 +398,19 @@
         }
 
         .game-info {
-            padding: 30px;
+            padding: 20px; /* Reduced padding for mobile */
         }
 
         .game-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem; /* Reduced size for mobile */
+            margin-bottom: 10px; /* Reduced margin for mobile */
             color: var(--primary-color);
         }
 
         .game-difficulty {
             display: flex;
             align-items: center;
-            margin: 20px 0;
+            margin: 15px 0; /* Reduced margin for mobile */
         }
 
         .difficulty-label {
@@ -449,13 +430,13 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px; /* Reduced padding for mobile */
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 15px; /* Reduced margin for mobile */
         }
 
         .play-button:hover {
@@ -466,71 +447,71 @@
         /* Features Section */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for mobile */
+            gap: 20px; /* Reduced gap for mobile */
         }
 
         .feature-item {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 30px 20px; /* Reduced padding for mobile */
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             display: flex;
-            gap: 20px;
+            gap: 15px; /* Reduced gap for mobile */
         }
 
         .feature-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.2);
+            box-shadow: 0 20px 50px rgba(108, 99, 255, 0.2);
         }
 
         .feature-icon {
-            font-size: 2.5rem;
+            font-size: 2rem; /* Reduced size for mobile */
             color: var(--primary-color);
             flex-shrink: 0;
         }
 
         .feature-text h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.1rem; /* Reduced size for mobile */
+            margin-bottom: 8px; /* Reduced margin for mobile */
         }
 
         /* Testimonials */
         .testimonials-section {
-            background: linear-gradient(135deg, #4ECDC4 0%, #FF6B6B 100%);
+            background: linear-gradient(135deg, #4DCCFF 0%, #FF6B9D 100%);
             color: white;
         }
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for mobile */
+            gap: 20px; /* Reduced gap for mobile */
         }
 
         .testimonial-card {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px; /* Reduced padding for mobile */
             border: 1px solid rgba(255,255,255,0.2);
         }
 
         .testimonial-content {
             font-style: italic;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reduced margin for mobile */
             line-height: 1.6;
         }
 
         .testimonial-author {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px; /* Reduced gap for mobile */
         }
 
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px; /* Reduced size for mobile */
+            height: 40px; /* Reduced size for mobile */
             border-radius: 50%;
             background: white;
             color: var(--primary-color);
@@ -538,19 +519,20 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Reduced size for mobile */
         }
 
         .author-info h4 {
             margin-bottom: 5px;
+            font-size: 1rem; /* Reduced size for mobile */
         }
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            background: linear-gradient(135deg, #FF6B9D 0%, #6C63FF 100%);
             color: white;
             text-align: center;
-            padding: 100px 5%;
+            padding: 80px 5%; /* Reduced padding for mobile */
         }
 
         .cta-content {
@@ -559,91 +541,44 @@
         }
 
         .cta-content h2 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            font-size: clamp(2.2rem, 5vw, 3.5rem); /* Responsive font size */
+            margin-bottom: 1.2rem; /* Reduced margin for mobile */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Better visibility */
         }
 
         .cta-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .download-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .download-btn {
-            display: flex;
-            align-items: center;
-            background: white;
-            color: var(--dark-color);
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .download-btn img {
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .download-text {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .download-text span:first-child {
-            font-size: 0.8rem;
-        }
-
-        .download-text span:last-child {
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: clamp(1rem, 2vw, 1.3rem); /* Responsive font size */
+            margin-bottom: 2rem; /* Reduced margin for mobile */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Better visibility */
         }
 
         /* Footer */
         footer {
             background-color: var(--dark-color);
             color: white;
-            padding: 80px 5% 40px;
+            padding: 60px 5% 30px; /* Reduced padding for mobile */
         }
 
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted for mobile */
+            gap: 30px; /* Reduced gap for mobile */
         }
 
         .footer-brand {
-            margin-bottom: 30px;
+            margin-bottom: 20px; /* Reduced margin for mobile */
         }
 
         .footer-logo {
-            height: 40px;
-            margin-bottom: 20px;
+            height: 35px; /* Reduced size for mobile */
+            margin-bottom: 15px; /* Reduced margin for mobile */
         }
 
         .footer-links h4 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+            font-size: 1.1rem; /* Reduced size for mobile */
+            margin-bottom: 15px; /* Reduced margin for mobile */
             color: var(--secondary-color);
         }
 
@@ -652,13 +587,14 @@
         }
 
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 8px; /* Reduced margin for mobile */
         }
 
         .footer-links a {
             color: white;
             text-decoration: none;
             transition: color 0.3s;
+            font-size: 0.9rem; /* Reduced size for mobile */
         }
 
         .footer-links a:hover {
@@ -666,22 +602,23 @@
         }
 
         .footer-bottom {
-            margin-top: 60px;
-            padding-top: 30px;
+            margin-top: 40px; /* Reduced margin for mobile */
+            padding-top: 20px; /* Reduced padding for mobile */
             border-top: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap; /* For mobile */
         }
 
         .social-links {
             display: flex;
-            gap: 20px;
+            gap: 15px; /* Reduced gap for mobile */
         }
 
         .social-links a {
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Reduced size for mobile */
             transition: color 0.3s;
         }
 
@@ -714,7 +651,7 @@
         .modal-content {
             background-color: white;
             border-radius: 20px;
-            width: 90%;
+            width: 95%; /* Increased width for mobile */
             max-width: 1000px;
             max-height: 90vh;
             overflow: hidden;
@@ -729,10 +666,10 @@
 
         .close-button {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
+            top: 15px; /* Adjusted for mobile */
+            right: 15px; /* Adjusted for mobile */
+            width: 35px; /* Reduced size for mobile */
+            height: 35px; /* Reduced size for mobile */
             background-color: var(--danger-color);
             color: white;
             border-radius: 50%;
@@ -758,7 +695,7 @@
 
         .game-display {
             width: 100%;
-            height: 500px;
+            height: 350px; /* Reduced height for mobile */
             background-color: #f0f2ff;
             position: relative;
             overflow: hidden;
@@ -770,19 +707,21 @@
         }
 
         .game-controls {
-            padding: 20px;
+            padding: 15px; /* Reduced padding for mobile */
             display: flex;
-            gap: 15px;
+            gap: 10px; /* Reduced gap for mobile */
             background-color: white;
+            flex-wrap: wrap; /* For mobile */
         }
 
         .game-controls button {
-            padding: 10px 20px;
+            padding: 8px 15px; /* Reduced padding for mobile */
             border: none;
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 0.9rem; /* Reduced size for mobile */
         }
 
         .game-controls button:hover {
@@ -807,7 +746,7 @@
         .game-stats {
             display: flex;
             justify-content: space-between;
-            padding: 15px 20px;
+            padding: 10px 15px; /* Reduced padding for mobile */
             background-color: #f5f7ff;
         }
 
@@ -816,13 +755,13 @@
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Reduced size for mobile */
             color: #666;
             margin-bottom: 5px;
         }
 
         .stat-value {
-            font-size: 1.2rem;
+            font-size: 1rem; /* Reduced size for mobile */
             font-weight: bold;
             color: var(--primary-color);
         }
@@ -841,125 +780,45 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        /* Custom Cursor */
+        /* Custom Cursor - Ball Style */
         .cursor {
             position: fixed;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background-color: var(--primary-color);
             mix-blend-mode: difference;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+            display: none; /* Hidden by default for mobile */
         }
 
         .cursor-follower {
             position: fixed;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background-color: rgba(255, 107, 107, 0.2);
+            background-color: rgba(108, 99, 255, 0.2);
             pointer-events: none;
             z-index: 9998;
             transform: translate(-50%, -50%);
             transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+            display: none; /* Hidden by default for mobile */
         }
 
         .cursor-active {
-            transform: translate(-50%, -50%) scale(1.5);
+            transform: translate(-50%, -50%) scale(1.3);
             background-color: var(--accent-color);
         }
 
         .cursor-follower-active {
             width: 60px;
             height: 60px;
-            background-color: rgba(255, 230, 109, 0.1);
+            background-color: rgba(255, 107, 157, 0.1);
         }
 
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
-            
-            .section-header h2 {
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .nav-links {
-                margin-top: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.8rem;
-            }
-            
-            .hero-title-container {
-                flex-direction: column;
-            }
-            
-            .hero-logo {
-                margin-left: 0;
-                margin-top: 20px;
-            }
-            
-            .hero-content p {
-                font-size: 1.1rem;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .section-header h2 {
-                font-size: 2.2rem;
-            }
-            
-            .game-display {
-                height: 400px;
-            }
-            
-            .download-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            
-            .cta-content h2 {
-                font-size: 2.5rem;
-            }
-            
-            .footer-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .game-display {
-                height: 300px;
-            }
-        }
-    
         /* Additional styles for animations */
         .word {
             display: inline-block;
@@ -983,7 +842,7 @@
             position: absolute;
             width: 150%;
             height: 150%;
-            background: radial-gradient(circle, rgba(255,107,107,0.2) 0%, rgba(255,107,107,0) 70%);
+            background: radial-gradient(circle, rgba(108,99,255,0.2) 0%, rgba(108,99,255,0) 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -1020,6 +879,103 @@
         .problem-card:hover::after, .feature-card:hover::after, .game-card:hover::after {
             opacity: 1;
         }
+
+        /* Mobile Menu */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 769px) {
+            /* Show cursor only on desktop */
+            .cursor, .cursor-follower {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: row;
+                padding: 15px;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-color);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 15px;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .game-display {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .game-display {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1032,6 +988,7 @@
         <div class="logo-container">
             <img src="assets/logo.png" alt="CHIZEL Logo" class="logo">
         </div>
+        <button class="mobile-menu-button">☰</button>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#problem">The Challenge</a></li>
@@ -1045,12 +1002,18 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-section">
+        <!-- Spline 3D Scene -->
+        <div class="spline-scene">
+            <script type="module">
+                const canvas = document.getElementById('canvas3d');
+                const app = new Spline.Application(canvas);
+                app.load('https://prod.spline.design/6Wq1QJOBJ2qZdcUv/scene.splinecode');
+            </script>
+        </div>
+        
         <div class="hero-content">
-            <div class="hero-title-container">
-                <h1 class="text-glow">CHIZEL</h1>
-                <img src="assets/logo.png" alt="CHIZEL Logo" class="hero-logo">
-            </div>
-            <p class="text-glow">CHIZEL transforms screen time into brain time with engaging games that build critical thinking, creativity, and social skills. Our neuroscience-backed approach makes learning feel like play!</p>
+            <h1 class="text-3d">Unlock Your Child's <span class="text-gradient">Potential</span></h1>
+            <p>CHIZEL transforms screen time into brain time with engaging games that build critical thinking, creativity, and social skills. Our neuroscience-backed approach makes learning feel like play!</p>
             <div class="hero-buttons">
                 <a href="#cta" class="cta-button">Start Free Trial</a>
                 <a href="#games" class="secondary-button">Explore Games</a>
@@ -1063,7 +1026,7 @@
         <div class="parallax-bg" style="background-image: url('assets/p1.png');"></div>
         <div class="parallax-content">
             <div class="scroll-reveal">
-                <div class="scroll-reveal-text text-glow">
+                <div class="scroll-reveal-text">
                     <span class="word">Where</span>
                     <span class="word">Learning</span>
                     <span class="word">Feels</span>
@@ -1071,7 +1034,7 @@
                     <span class="word">Play</span>
                 </div>
             </div>
-            <p class="text-glow">CHIZEL games are designed by child psychologists and game developers to create the perfect balance of fun and learning.</p>
+            <p>CHIZEL games are designed by child psychologists and game developers to create the perfect balance of fun and learning.</p>
         </div>
     </section>
 
@@ -1108,7 +1071,7 @@
         <div class="parallax-bg" style="background-image: url('assets/p2.png');"></div>
         <div class="parallax-content">
             <div class="scroll-reveal">
-                <div class="scroll-reveal-text text-glow">
+                <div class="scroll-reveal-text">
                     <span class="word">Designed</span>
                     <span class="word">By</span>
                     <span class="word">Experts</span>
@@ -1117,7 +1080,7 @@
                     <span class="word">Kids</span>
                 </div>
             </div>
-            <p class="text-glow">Our team of neuroscientists, educators, and game designers work together to create experiences that are both developmentally appropriate and irresistibly fun.</p>
+            <p>Our team of neuroscientists, educators, and game designers work together to create experiences that are both developmentally appropriate and irresistibly fun.</p>
         </div>
     </section>
 
@@ -1159,7 +1122,7 @@
         <div class="parallax-bg" style="background-image: url('assets/p3.png');"></div>
         <div class="parallax-content">
             <div class="scroll-reveal">
-                <div class="scroll-reveal-text text-glow">
+                <div class="scroll-reveal-text">
                     <span class="word">Screen</span>
                     <span class="word">Time</span>
                     <span class="word">You</span>
@@ -1169,7 +1132,7 @@
                     <span class="word">About</span>
                 </div>
             </div>
-            <p class="text-glow">Finally, an app that gives you peace of mind while your child plays. Our games are designed to be as enriching as they are entertaining.</p>
+            <p>Finally, an app that gives you peace of mind while your child plays. Our games are designed to be as enriching as they are entertaining.</p>
         </div>
     </section>
 
@@ -1185,7 +1148,7 @@
                 <!-- Game 1 -->
                 <div class="game-card">
                     <div class="game-preview">
-                        <img src="assets/game1-preview.jpg" alt="Mind Maze Preview">
+                        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWlobm92ZzU0cTFpY252cmhuZHF6OGF3dmdldGZ3cDlnc3NrbDdyMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l4pTpY2fLm9eRGHMQ/giphy.gif" alt="Mind Maze Preview">
                     </div>
                     <div class="game-info">
                         <h3>Mind Maze</h3>
@@ -1205,7 +1168,7 @@
                 <!-- Game 2 -->
                 <div class="game-card">
                     <div class="game-preview">
-                        <img src="assets/game2-preview.jpg" alt="Pattern Puzzles Preview">
+                        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbG4zdmlqYjRiNG05NzZrMDB3ZGV1dzZxdmF6cTN3MHFpc3ZqbGdxOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/b1h80kgemNIPiQHeQO/giphy.gif" alt="Pattern Puzzles Preview">
                     </div>
                     <div class="game-info">
                         <h3>Pattern Puzzles</h3>
@@ -1225,7 +1188,7 @@
                 <!-- Game 3 -->
                 <div class="game-card">
                     <div class="game-preview">
-                        <img src="assets/game3-preview.jpg" alt="Word Wizards Preview">
+                        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3BycDN0a2FvcGV0enk2eTh4ZXNvaXMwb2l2d2F2eWlvYjBnOXN5cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qubhX7SwgemLHH2nO5/giphy.gif" alt="Word Wizards Preview">
                     </div>
                     <div class="game-info">
                         <h3>Word Wizards</h3>
@@ -1245,7 +1208,7 @@
                 <!-- Game 4 -->
                 <div class="game-card">
                     <div class="game-preview">
-                        <img src="assets/game4-preview.jpg" alt="Math Explorers Preview">
+                        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnIzM29rbGMzcGc5eXBxZXkwcWc1cTJ0ZTdjdGhxcnVrYzZqYjZqOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cRHgphdnVZMtRLZlT1/giphy.gif" alt="Math Explorers Preview">
                     </div>
                     <div class="game-info">
                         <h3>Math Explorers</h3>
@@ -1270,14 +1233,14 @@
         <div class="parallax-bg" style="background-image: url('assets/p4.png');"></div>
         <div class="parallax-content">
             <div class="scroll-reveal">
-                <div class="scroll-reveal-text text-glow">
+                <div class="scroll-reveal-text">
                     <span class="word">Proven</span>
                     <span class="word">Results</span>
                     <span class="word">Measurable</span>
                     <span class="word">Growth</span>
                 </div>
             </div>
-            <p class="text-glow">Independent studies show children using CHIZEL demonstrate 3x faster cognitive development compared to traditional learning methods.</p>
+            <p>Independent studies show children using CHIZEL demonstrate 3x faster cognitive development compared to traditional learning methods.</p>
         </div>
     </section>
 
@@ -1341,7 +1304,7 @@
         <div class="parallax-bg" style="background-image: url('assets/p5.png');"></div>
         <div class="parallax-content">
             <div class="scroll-reveal">
-                <div class="scroll-reveal-text text-glow">
+                <div class="scroll-reveal-text">
                     <span class="word">Join</span>
                     <span class="word">Thousands</span>
                     <span class="word">Of</span>
@@ -1352,7 +1315,7 @@
                     <span class="word">CHIZEL</span>
                 </div>
             </div>
-            <p class="text-glow">See the difference in your child's development within weeks. Start your free trial today!</p>
+            <p>See the difference in your child's development within weeks. Start your free trial today!</p>
         </div>
     </section>
 
@@ -1415,22 +1378,6 @@
             <div class="hero-buttons">
                 <a href="#signup" class="cta-button float-animation">Get Started</a>
                 <a href="#demo" class="secondary-button">See How It Works</a>
-            </div>
-            <div class="download-buttons">
-                <a href="#" class="download-btn">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play">
-                    <div class="download-text">
-                        <span>GET IT ON</span>
-                        <span>Google Play</span>
-                    </div>
-                </a>
-                <a href="#" class="download-btn">
-                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store">
-                    <div class="download-text">
-                        <span>Download on the</span>
-                        <span>App Store</span>
-                    </div>
-                </a>
             </div>
         </div>
     </section>
@@ -1519,6 +1466,21 @@
     <script>
         // Initialize all animations after DOM loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
             // Text Trail Animation
             const textElements = document.querySelectorAll('.scroll-reveal-text .word');
             textElements.forEach((word, index) => {
@@ -1527,53 +1489,43 @@
                 }, index * 200);
             });
 
-            // Splash Cursor
-            const cursor = document.createElement('div');
-            cursor.className = 'cursor';
-            document.body.appendChild(cursor);
-            
-            const cursorFollower = document.createElement('div');
-            cursorFollower.className = 'cursor-follower';
-            document.body.appendChild(cursorFollower);
-            
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
+            // Custom Cursor - Ball Style (only for desktop)
+            if (window.innerWidth > 768) {
+                const cursor = document.querySelector('.cursor');
+                const cursorFollower = document.querySelector('.cursor-follower');
                 
-                setTimeout(() => {
-                    cursorFollower.style.left = e.clientX + 'px';
-                    cursorFollower.style.top = e.clientY + 'px';
-                }, 100);
-            });
-            
-            // Make cursor interactive with clickable elements
-            const interactiveElements = document.querySelectorAll('a, button, .play-button');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursor.style.transform = 'scale(1.5)';
-                    cursor.style.backgroundColor = 'var(--accent-color)';
-                    cursorFollower.style.transform = 'scale(1.5)';
-                });
-                
-                el.addEventListener('mouseleave', () => {
-                    cursor.style.transform = 'scale(1)';
-                    cursor.style.backgroundColor = 'var(--primary-color)';
-                    cursorFollower.style.transform = 'scale(1)';
-                });
-                
-                el.addEventListener('click', () => {
-                    // Create splash effect
-                    const splash = document.createElement('div');
-                    splash.className = 'cursor-splash';
-                    splash.style.left = (el.getBoundingClientRect().left + el.offsetWidth/2) + 'px';
-                    splash.style.top = (el.getBoundingClientRect().top + el.offsetHeight/2) + 'px';
-                    document.body.appendChild(splash);
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
                     
                     setTimeout(() => {
-                        splash.remove();
-                    }, 1000);
+                        cursorFollower.style.left = e.clientX + 'px';
+                        cursorFollower.style.top = e.clientY + 'px';
+                    }, 100);
                 });
-            });
+                
+                document.addEventListener('mouseenter', () => {
+                    cursor.style.opacity = '1';
+                    cursorFollower.style.opacity = '1';
+                });
+                
+                document.addEventListener('mouseleave', () => {
+                    cursor.style.opacity = '0';
+                    cursorFollower.style.opacity = '0';
+                });
+                
+                document.querySelectorAll('a, button, .play-button').forEach(element => {
+                    element.addEventListener('mouseenter', () => {
+                        cursor.classList.add('cursor-active');
+                        cursorFollower.classList.add('cursor-follower-active');
+                    });
+                    
+                    element.addEventListener('mouseleave', () => {
+                        cursor.classList.remove('cursor-active');
+                        cursorFollower.classList.remove('cursor-follower-active');
+                    });
+                });
+            }
 
             // Scroll Reveal Animations with GSAP
             gsap.registerPlugin(ScrollTrigger);
@@ -1853,11 +1805,44 @@
                 document.addEventListener('keyup', (e) => {
                     this.keyState[e.key] = false;
                 });
+                
+                // Touch controls for mobile
+                this.canvas.addEventListener('touchstart', (e) => {
+                    const touch = e.touches[0];
+                    const rect = this.canvas.getBoundingClientRect();
+                    const touchX = touch.clientX - rect.left;
+                    const touchY = touch.clientY - rect.top;
+                    
+                    // Determine swipe direction
+                    const centerX = this.width / 2;
+                    const centerY = this.height / 2;
+                    
+                    if (touchX < centerX - 30) {
+                        this.keyState['ArrowLeft'] = true;
+                    } else if (touchX > centerX + 30) {
+                        this.keyState['ArrowRight'] = true;
+                    }
+                    
+                    if (touchY < centerY - 30) {
+                        this.keyState['ArrowUp'] = true;
+                    } else if (touchY > centerY + 30) {
+                        this.keyState['ArrowDown'] = true;
+                    }
+                });
+                
+                this.canvas.addEventListener('touchend', () => {
+                    this.keyState['ArrowLeft'] = false;
+                    this.keyState['ArrowRight'] = false;
+                    this.keyState['ArrowUp'] = false;
+                    this.keyState['ArrowDown'] = false;
+                });
             }
             
             cleanup() {
                 document.removeEventListener('keydown', this.keyState);
                 document.removeEventListener('keyup', this.keyState);
+                this.canvas.removeEventListener('touchstart', this.handleTouch);
+                this.canvas.removeEventListener('touchend', this.handleTouchEnd);
             }
             
             update() {
@@ -1920,17 +1905,17 @@
                 super.render();
                 
                 // Draw walls
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 for (const wall of this.walls) {
                     this.ctx.fillRect(wall.x, wall.y, wall.width, wall.height);
                 }
                 
                 // Draw goal
-                this.ctx.fillStyle = '#6BCB77';
+                this.ctx.fillStyle = '#4CAF50';
                 this.ctx.fillRect(this.goal.x, this.goal.y, this.goal.size, this.goal.size);
                 
                 // Draw player
-                this.ctx.fillStyle = '#FF6B6B';
+                this.ctx.fillStyle = '#6C63FF';
                 this.ctx.beginPath();
                 this.ctx.arc(
                     this.player.x + this.player.size/2,
@@ -1942,9 +1927,33 @@
                 this.ctx.fill();
                 
                 // Draw UI
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '18px Arial';
                 this.ctx.fillText(`Level: ${this.level}`, 20, 30);
+                
+                // Draw touch controls for mobile
+                if (window.innerWidth <= 768) {
+                    this.ctx.fillStyle = 'rgba(58, 61, 93, 0.3)';
+                    this.ctx.beginPath();
+                    this.ctx.arc(50, this.height - 50, 30, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.fillText('←', 45, this.height - 45);
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(150, this.height - 50, 30, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.fillText('→', 145, this.height - 45);
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(100, this.height - 100, 30, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.fillText('↑', 95, this.height - 95);
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(100, this.height - 50, 30, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.fillText('↓', 95, this.height - 45);
+                }
             }
             
             reset() {
@@ -1965,7 +1974,7 @@
                 this.userSequence = [];
                 this.tiles = [];
                 this.level = 1;
-                this.tileSize = 80;
+                this.tileSize = Math.min(80, canvas.width / 5); // Responsive tile size
                 this.gridSize = 3;
             }
             
@@ -2006,16 +2015,12 @@
             }
             
             getRandomColor() {
-                const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#6BCB77', '#292F36'];
+                const colors = ['#6C63FF', '#4DCCFF', '#FF6B9D', '#FFD166', '#4CAF50'];
                 return colors[Math.floor(Math.random() * colors.length)];
             }
             
             setupControls() {
-                this.canvas.addEventListener('click', (e) => {
-                    const rect = this.canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
+                const handleTileClick = (x, y) => {
                     for (const tile of this.tiles) {
                         if (x > tile.x && x < tile.x + tile.width &&
                             y > tile.y && y < tile.y + tile.height) {
@@ -2023,6 +2028,24 @@
                             break;
                         }
                     }
+                };
+                
+                // Mouse controls
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    handleTileClick(x, y);
+                });
+                
+                // Touch controls for mobile
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = touch.clientX - rect.left;
+                    const y = touch.clientY - rect.top;
+                    handleTileClick(x, y);
                 });
             }
             
@@ -2069,7 +2092,7 @@
                 super.render();
                 
                 // Draw title
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '24px Arial';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText('Repeat the Pattern!', this.width/2, 50);
@@ -2092,7 +2115,7 @@
                 }
                 
                 // Draw UI
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '18px Arial';
                 this.ctx.textAlign = 'left';
                 this.ctx.fillText(`Level: ${this.level}`, 20, 30);
@@ -2142,7 +2165,7 @@
             createLetters() {
                 this.letters = [];
                 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                const letterSize = 40;
+                const letterSize = Math.min(40, this.width / 15); // Responsive letter size
                 const padding = (this.width - 13 * letterSize) / 2;
                 
                 for (let i = 0; i < alphabet.length; i++) {
@@ -2160,11 +2183,7 @@
             }
             
             setupControls() {
-                this.canvas.addEventListener('click', (e) => {
-                    const rect = this.canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
+                const handleLetterClick = (x, y) => {
                     for (const letter of this.letters) {
                         if (!letter.used &&
                             x > letter.x && x < letter.x + letter.size &&
@@ -2173,6 +2192,24 @@
                             break;
                         }
                     }
+                };
+                
+                // Mouse controls
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    handleLetterClick(x, y);
+                });
+                
+                // Touch controls for mobile
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = touch.clientX - rect.left;
+                    const y = touch.clientY - rect.top;
+                    handleLetterClick(x, y);
                 });
             }
             
@@ -2215,7 +2252,7 @@
                 super.render();
                 
                 // Draw title
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '24px Arial';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText('Guess the Word!', this.width/2, 50);
@@ -2226,7 +2263,7 @@
                 
                 for (let i = 0; i < this.currentWord.length; i++) {
                     // Draw underline
-                    this.ctx.strokeStyle = '#292F36';
+                    this.ctx.strokeStyle = '#3A3D5D'; /* Lighter dark theme */
                     this.ctx.lineWidth = 2;
                     this.ctx.beginPath();
                     this.ctx.moveTo(startX + i * 40 + 5, 150);
@@ -2235,7 +2272,7 @@
                     
                     // Draw letter if guessed
                     if (this.guessedLetters[i]) {
-                        this.ctx.fillStyle = '#FF6B6B';
+                        this.ctx.fillStyle = '#6C63FF';
                         this.ctx.font = '24px Arial';
                         this.ctx.textAlign = 'center';
                         this.ctx.fillText(
@@ -2249,7 +2286,7 @@
                 // Draw alphabet letters
                 for (const letter of this.letters) {
                     this.ctx.fillStyle = letter.used ? 
-                        (this.currentWord.includes(letter.letter) ? '#6BCB77' : '#FF6B6B') : '#4ECDC4';
+                        (this.currentWord.includes(letter.letter) ? '#4CAF50' : '#EF476F') : '#4DCCFF';
                     this.ctx.fillRect(letter.x, letter.y, letter.size, letter.size);
                     
                     this.ctx.fillStyle = 'white';
@@ -2265,7 +2302,7 @@
                 
                 // Draw hangman (simplified)
                 if (this.wrongGuesses > 0) {
-                    this.ctx.strokeStyle = '#292F36';
+                    this.ctx.strokeStyle = '#3A3D5D'; /* Lighter dark theme */
                     this.ctx.lineWidth = 3;
                     
                     // Base
@@ -2317,7 +2354,7 @@
                 }
                 
                 // Draw UI
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '18px Arial';
                 this.ctx.textAlign = 'left';
                 this.ctx.fillText(`Level: ${this.level}`, 20, 30);
@@ -2388,7 +2425,7 @@
             
             createNumberPad() {
                 this.numbers = [];
-                const buttonSize = 60;
+                const buttonSize = Math.min(60, this.width / 6); // Responsive button size
                 const padding = (this.width - 3 * buttonSize) / 2;
                 
                 // Numbers 1-9
@@ -2432,11 +2469,7 @@
             }
             
             setupControls() {
-                this.canvas.addEventListener('click', (e) => {
-                    const rect = this.canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
+                const handleNumberClick = (x, y) => {
                     for (const number of this.numbers) {
                         if (x > number.x && x < number.x + number.width &&
                             y > number.y && y < number.y + number.height) {
@@ -2444,6 +2477,24 @@
                             break;
                         }
                     }
+                };
+                
+                // Mouse controls
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    handleNumberClick(x, y);
+                });
+                
+                // Touch controls for mobile
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = touch.clientX - rect.left;
+                    const y = touch.clientY - rect.top;
+                    handleNumberClick(x, y);
                 });
             }
             
@@ -2477,18 +2528,18 @@
                 super.render();
                 
                 // Draw title
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '24px Arial';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText('Solve the Math Problem!', this.width/2, 50);
                 
                 // Draw problem
-                this.ctx.fillStyle = '#FF6B6B';
+                this.ctx.fillStyle = '#6C63FF';
                 this.ctx.font = '36px Arial';
                 this.ctx.fillText(this.currentProblem, this.width/2, 120);
                 
                 // Draw answer input
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '24px Arial';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText(this.userAnswer || '?', this.width/2, 160);
@@ -2496,8 +2547,8 @@
                 // Draw number pad
                 for (const number of this.numbers) {
                     this.ctx.fillStyle = 
-                        number.value === '✓' ? '#6BCB77' : 
-                        number.value === '⌫' ? '#FF6B6B' : '#4ECDC4';
+                        number.value === '✓' ? '#4CAF50' : 
+                        number.value === '⌫' ? '#EF476F' : '#4DCCFF';
                     this.ctx.fillRect(number.x, number.y, number.width, number.height);
                     
                     this.ctx.fillStyle = 'white';
@@ -2512,7 +2563,7 @@
                 }
                 
                 // Draw UI
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '18px Arial';
                 this.ctx.textAlign = 'left';
                 this.ctx.fillText(`Level: ${this.level}`, 20, 30);
@@ -2559,16 +2610,12 @@
             }
             
             getRandomColor() {
-                const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#6BCB77', '#292F36'];
+                const colors = ['#6C63FF', '#4DCCFF', '#FF6B9D', '#FFD166', '#4CAF50'];
                 return colors[Math.floor(Math.random() * colors.length)];
             }
             
             setupControls() {
-                this.canvas.addEventListener('click', (e) => {
-                    const rect = this.canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
+                const handleBallClick = (x, y) => {
                     for (const ball of this.balls) {
                         const distance = Math.sqrt(
                             Math.pow(x - ball.x, 2) + Math.pow(y - ball.y, 2)
@@ -2587,6 +2634,24 @@
                             break;
                         }
                     }
+                };
+                
+                // Mouse controls
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    handleBallClick(x, y);
+                });
+                
+                // Touch controls for mobile
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = touch.clientX - rect.left;
+                    const y = touch.clientY - rect.top;
+                    handleBallClick(x, y);
                 });
             }
             
@@ -2612,7 +2677,7 @@
                 super.render();
                 
                 // Draw title
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '24px Arial';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText('Click All the Balls!', this.width/2, 50);
@@ -2625,7 +2690,7 @@
                     this.ctx.fill();
                     
                     if (ball.clicked) {
-                        this.ctx.strokeStyle = '#6BCB77';
+                        this.ctx.strokeStyle = '#4CAF50';
                         this.ctx.lineWidth = 3;
                         this.ctx.beginPath();
                         this.ctx.moveTo(ball.x - ball.radius/2, ball.y);
@@ -2636,7 +2701,7 @@
                 }
                 
                 // Draw UI
-                this.ctx.fillStyle = '#292F36';
+                this.ctx.fillStyle = '#3A3D5D'; /* Lighter dark theme */
                 this.ctx.font = '18px Arial';
                 this.ctx.textAlign = 'left';
                 this.ctx.fillText(`Level: ${this.level}`, 20, 30);
@@ -2651,112 +2716,6 @@
                 alert(`Level Up! Now find ${3 + newLevel} balls`);
             }
         }
-        
-        // Scroll Animation
-        document.addEventListener('DOMContentLoaded', function() {
-            // Navbar scroll effect
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    document.querySelector('.navbar').classList.add('scrolled');
-                } else {
-                    document.querySelector('.navbar').classList.remove('scrolled');
-                }
-            });
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
-            // Parallax Effect
-            const parallaxSections = document.querySelectorAll('.parallax-section');
-            
-            window.addEventListener('scroll', function() {
-                parallaxSections.forEach(section => {
-                    const bg = section.querySelector('.parallax-bg');
-                    const scrollPosition = window.pageYOffset;
-                    const sectionPosition = section.offsetTop;
-                    const distance = scrollPosition - sectionPosition;
-                    
-                    bg.style.transform = `translateY(${distance * 0.5}px)`;
-                });
-            });
-
-            // Initialize Scroll Reveal
-            const words = document.querySelectorAll('.word');
-            
-            function revealWords() {
-                words.forEach((word, index) => {
-                    setTimeout(() => {
-                        word.style.opacity = '1';
-                        word.style.transform = 'translateY(0)';
-                    }, index * 200);
-                });
-            }
-            
-            // Intersection Observer for Scroll Reveal
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        revealWords();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-            
-            document.querySelectorAll('.scroll-reveal').forEach(section => {
-                observer.observe(section);
-            });
-        });
-
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorFollower.style.left = e.clientX + 'px';
-                cursorFollower.style.top = e.clientY + 'px';
-            }, 100);
-        });
-        
-        document.addEventListener('mouseenter', () => {
-            cursor.style.opacity = '1';
-            cursorFollower.style.opacity = '1';
-        });
-        
-        document.addEventListener('mouseleave', () => {
-            cursor.style.opacity = '0';
-            cursorFollower.style.opacity = '0';
-        });
-        
-        document.querySelectorAll('a, button').forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-active');
-                cursorFollower.classList.add('cursor-follower-active');
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-active');
-                cursorFollower.classList.remove('cursor-follower-active');
-            });
-        });
     </script>
 </body>
 </html>
